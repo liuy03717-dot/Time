@@ -1,20 +1,35 @@
-﻿namespace TimeApp;
+﻿using System;
+using Microsoft.Maui.Controls;
 
-public partial class DetailPage : ContentPage
+namespace TimeApp
 {
-    // 构造函数接收一个标题参数
-    public DetailPage(string eventTitle)
+    public partial class DetailPage : ContentPage
     {
-        InitializeComponent();
-
-        // 设置页面数据
-        this.Title = eventTitle;
-        EventTitleLabel.Text = $"Days left until {eventTitle}";
-
-       
-        if (eventTitle.Contains("Exam"))
+        public DetailPage(EventItem selectedEvent)
         {
-            DaysLabel.Text = "27";
+            InitializeComponent();
+
+            this.Title = selectedEvent.Title;
+
+            // Dynamically determine whether it is the past, present or future, and modify the copy and color.
+            if (selectedEvent.DaysLeft < 0)
+            {
+                DaysLabel.Text = Math.Abs(selectedEvent.DaysLeft).ToString();
+                DaysLabel.TextColor = Colors.Red;
+                EventTitleLabel.Text = $"Days passed since {selectedEvent.Title}";
+            }
+            else if (selectedEvent.DaysLeft == 0)
+            {
+                DaysLabel.Text = "0";
+                DaysLabel.TextColor = Colors.Green;
+                EventTitleLabel.Text = $"Today is {selectedEvent.Title}!";
+            }
+            else
+            {
+                DaysLabel.Text = selectedEvent.DaysLeft.ToString();
+                DaysLabel.TextColor = Color.FromArgb("#3F51B5");
+                EventTitleLabel.Text = $"Days left until {selectedEvent.Title}";
+            }
         }
     }
 }
