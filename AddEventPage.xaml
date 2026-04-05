@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeApp.AddEventPage"
+             Title="New Event"
+             BackgroundColor="White">
+
+    <VerticalStackLayout Padding="30" Spacing="25">
+        <VerticalStackLayout Spacing="5">
+            <Label Text="EVENT NAME" FontAttributes="Bold" TextColor="Gray" FontSize="14" />
+            <Entry x:Name="TitleEntry" Placeholder="What is happening?" FontSize="18" TextColor="#333333" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Spacing="5">
+            <Label Text="TARGET DATE" FontAttributes="Bold" TextColor="Gray" FontSize="14" />
+            <DatePicker x:Name="DatePicker" FontSize="18" TextColor="#333333" />
+        </VerticalStackLayout>
+
+        <Button Text="SAVE" 
+                Clicked="OnSaveClicked"
+                BackgroundColor="#FF4081" 
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="25"
+                HeightRequest="50"
+                Margin="0,30,0,0"
+                VerticalOptions="End" />
+    </VerticalStackLayout>
+</ContentPage>
