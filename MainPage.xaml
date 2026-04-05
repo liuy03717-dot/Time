@@ -6,24 +6,40 @@
              BackgroundColor="#F5F5F5">
 
     <Grid>
-        <CollectionView x:Name="EventsList" Margin="16" MaximumWidthRequest="600" HorizontalOptions="Center">
+        <CollectionView x:Name="EventsList" 
+                        Margin="16" 
+                        MaximumWidthRequest="600" 
+                        HorizontalOptions="Center"
+                        SelectionMode="Single"
+                        SelectionChanged="OnEventSelected">
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="White" CornerRadius="15" Padding="0" Margin="0,0,0,15" HasShadow="True" BorderColor="#E0E0E0">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnEventTapped" />
-                        </Frame.GestureRecognizers>
 
-                        <Grid ColumnDefinitions="*, Auto" Padding="20">
-                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                        <Grid ColumnDefinitions="*, Auto, Auto" Padding="15" ColumnSpacing="10">
+
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Padding="5,0,0,0">
                                 <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" TextColor="#333333" />
-                                <Label Text="{Binding Date}" FontSize="14" TextColor="Gray" Margin="0,5,0,0" />
+                                <Label Text="{Binding DateDisplay}" FontSize="14" TextColor="Gray" Margin="0,5,0,0" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Padding="0,0,10,0">
                                 <Label Text="{Binding DaysLeft}" FontSize="28" FontAttributes="Bold" TextColor="#3F51B5" HorizontalOptions="Center" />
                                 <Label Text="Days Left" FontSize="12" TextColor="Gray" />
                             </VerticalStackLayout>
+
+                            <Button Grid.Column="2" 
+                                    Text="✕" 
+                                    TextColor="#FF3B30" 
+                                    BackgroundColor="Transparent" 
+                                    FontSize="20" 
+                                    FontAttributes="Bold" 
+                                    VerticalOptions="Center" 
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Clicked="OnExplicitDeleteClicked" />
                         </Grid>
                     </Frame>
                 </DataTemplate>
@@ -33,6 +49,7 @@
         <Button Text="+" FontSize="28" FontAttributes="Bold" TextColor="White" BackgroundColor="#FF4081" 
                 CornerRadius="30" WidthRequest="60" HeightRequest="60"
                 HorizontalOptions="End" VerticalOptions="End" Margin="20,20,20,40"
-                Shadow="{Shadow Brush=Black, Offset='0,5', Opacity=0.3}"/>
+                Shadow="{Shadow Brush=Black, Offset='0,5', Opacity=0.3}"
+                Clicked="OnAddEventClicked"/>
     </Grid>
 </ContentPage>
