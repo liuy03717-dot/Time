@@ -9,32 +9,26 @@
         <VerticalStackLayout Padding="30" Spacing="20" MaximumWidthRequest="600" HorizontalOptions="Center">
 
             <VerticalStackLayout HorizontalOptions="Center" Margin="0,20,0,20">
-                <Label x:Name="DaysLabel" Text="5" FontSize="100" FontAttributes="Bold" TextColor="#3F51B5" HorizontalOptions="Center" />
-                <Label x:Name="EventTitleLabel" Text="Days Left" FontSize="18" TextColor="Gray" HorizontalOptions="Center" />
+                <Label x:Name="DaysLabel" FontSize="100" FontAttributes="Bold" TextColor="#3F51B5" HorizontalOptions="Center" />
+                <Label x:Name="EventTitleLabel" FontSize="18" TextColor="Gray" HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <Label Text="Memos" FontAttributes="Bold" FontSize="22" TextColor="#333333" Margin="0,10,0,0"/>
+            <Label Text="Memos" FontAttributes="Bold" FontSize="22" TextColor="#333333" Margin="0,10,0,10"/>
 
-            <Grid ColumnDefinitions="4, *">
-                <BoxView Grid.Column="0" BackgroundColor="#FF4081" CornerRadius="2" Margin="0,5"/>
-                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" Margin="15,0,0,0" HasShadow="False" BorderColor="#E0E0E0">
-                    <VerticalStackLayout>
-                        <Label Text="Bought a cake today. Need to pick it up at 3 PM." FontSize="16" TextColor="#333333"/>
-                        <Label Text="Oct 19, 10:00 AM" FontSize="12" TextColor="Gray" Margin="0,8,0,0" />
-                    </VerticalStackLayout>
-                </Frame>
-            </Grid>
+            <Grid ColumnDefinitions="30, *">
+                <BoxView Grid.Column="0" WidthRequest="2" BackgroundColor="#E0E0E0" HorizontalOptions="Center" VerticalOptions="Fill" />
 
-            <Grid ColumnDefinitions="4, *">
-                <BoxView Grid.Column="0" BackgroundColor="#FF4081" CornerRadius="2" Margin="0,5"/>
-                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" Margin="15,0,0,0" HasShadow="False" BorderColor="#E0E0E0">
-                    <VerticalStackLayout>
-                        <Label Text="Thinking about buying that necklace." FontSize="16" TextColor="#333333"/>
-                        <Label Text="Oct 15, 08:30 PM" FontSize="12" TextColor="Gray" Margin="0,8,0,0" />
-                    </VerticalStackLayout>
-                </Frame>
+                <Grid Grid.Column="1" ColumnDefinitions="Auto, *">
+                    <Ellipse WidthRequest="12" HeightRequest="12" Fill="#FF4081" Margin="-36,20,0,0" VerticalOptions="Start" />
+                    <Frame BackgroundColor="White" CornerRadius="12" Padding="15" Margin="0,0,0,15" HasShadow="False" BorderColor="#E0E0E0">
+                        <VerticalStackLayout>
+                            <Label Text="Created this event to track progress." FontSize="16" TextColor="#333333"/>
+                            <Label Text="Today, 10:00 AM" FontSize="12" TextColor="Gray" Margin="0,8,0,0" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
             </Grid>
 
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage> 
+</ContentPage>
