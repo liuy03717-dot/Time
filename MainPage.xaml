@@ -9,15 +9,17 @@
         <CollectionView x:Name="EventsList" 
                         Margin="16" 
                         MaximumWidthRequest="600" 
-                        HorizontalOptions="Center"
-                        SelectionMode="Single"
-                        SelectionChanged="OnEventSelected">
+                        HorizontalOptions="Center">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="White" CornerRadius="15" Padding="0" Margin="0,0,0,15" HasShadow="True" BorderColor="#E0E0E0">
 
                         <Grid ColumnDefinitions="*, Auto, Auto" Padding="15" ColumnSpacing="10">
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEventTapped" />
+                            </Grid.GestureRecognizers>
 
                             <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Padding="5,0,0,0">
                                 <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" TextColor="#333333" />
