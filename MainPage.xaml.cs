@@ -1,57 +1,76 @@
 using System;
-using System.Linq;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices;
 
 namespace TimeApp
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<EventItem> Events { get; set; }
+        public ObservableCollection<EventItem> Events { get; set; } = new ObservableCollection<EventItem>();
+
+        // Instantiate the database assistant
+        DatabaseService _dbService = new DatabaseService();
 
         public MainPage()
         {
             InitializeComponent();
-
-            Events = new ObservableCollection<EventItem>
-            {
-                new EventItem { Title = "Mom's Birthday", TargetDate = new DateTime(DateTime.Now.Year, 10, 24) },
-                new EventItem { Title = "Final Exam", TargetDate = DateTime.Now.AddDays(27) }
-            };
-
             EventsList.ItemsSource = Events;
         }
 
-        // 1. Click on the blank area of the card to jump to the detail page.
-        private async void OnEventSelected(object sender, SelectionChangedEventArgs e)
+        // efresh the data each time the page is displayed (or when returning from the background)
+        protected override async void OnAppearing()
+        {  
+            base.OnAppearing();
+            await LoadDataFromSqlite();
+        }
+
+        private async Task LoadDataFromSqlite()
         {
-            if (e.CurrentSelection.FirstOrDefault() is EventItem selectedEvent)
+            // Retrieve all data from SQLite
+            var items = await _dbService.GetEvents();
+
+            Events.Clear();
+            foreach (var item in items)
             {
-                await Navigation.PushAsync(new DetailPage(selectedEvent));
-                ((CollectionView)sender).SelectedItem = null;
+                Events.Add(item);
             }
         }
 
-        // 2. Click the + button at the bottom right to navigate to the add page.
-        private async void OnAddEventClicked(object sender, EventArgs e)
+        // Click on the card to jump to the details.
+        private async void OnEventTapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddEventPage(Events));
+            var layout = sender as BindableObject;
+            if (layout?.BindingContext is EventItem selectedEvent)
+            {
+                try { HapticFeedback.Default.Perform(HapticFeedbackType.Click); } catch { }
+                await Navigation.PushAsync(new DetailPage(selectedEvent));
+            }
         }
 
-        // 3. Click the red "×" button on the card to trigger the deletion.
+        // Go to the add page
+        private async void OnAddEventClicked(object sender, EventArgs e)
+        {
+            // After using SQLite, there is no longer a need to pass the Events collection.
+            await Navigation.PushAsync(new AddEventPage());
+        }
+
+        // Click the X button to delete.
         private async void OnExplicitDeleteClicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
+            // Physical vibration feedback
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(50)); } catch { }
 
-            // Determine which event card the currently clicked button belongs to
+            var button = sender as Button;
             if (button?.BindingContext is EventItem eventToDelete)
             {
-                bool confirm = await DisplayAlert("Delete Event",
-                                                  $"Are you sure you want to delete '{eventToDelete.Title}'?",
-                                                  "Yes", "No");
+                bool confirm = await DisplayAlert("Delete", $"Delete '{eventToDelete.Title}'?", "Yes", "No");
 
                 if (confirm)
                 {
+                    // 1. 从 SQLite 数据库删除Delete from the SQLite database
+                    await _dbService.DeleteEvent(eventToDelete);
+                    // 2. 从界面 UI 移除Remove from the interface UI
                     Events.Remove(eventToDelete);
                 }
             }
