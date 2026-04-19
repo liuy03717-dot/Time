@@ -1,11 +1,18 @@
-﻿public class EventItem
+using SQLite;
+
+namespace TimeApp
 {
-    public string Title { get; set; }
-    public DateTime TargetDate { get; set; }
+    public class EventItem
+    {
+        [PrimaryKey, AutoIncrement] // Tell the database that this is the unique ID and it will be automatically incremented.
+        public int Id { get; set; }
 
-    // Automatically calculate the remaining days
-    public int DaysLeft => (TargetDate - DateTime.Today).Days;
+        public string Title { get; set; }
+        public DateTime TargetDate { get; set; }
 
-    // Formatted date display, for example, "Oct 24, 2026"
-    public string DateDisplay => TargetDate.ToString("MMM dd, yyyy");
+        [Ignore] // These two items are calculated and do not need to be stored in a database table.
+        public int DaysLeft => (TargetDate.Date - DateTime.Today).Days;
+        [Ignore]
+        public string DateDisplay => TargetDate.ToString("MMM dd, yyyy");
+    }
 }
